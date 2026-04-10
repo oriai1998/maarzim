@@ -1,37 +1,53 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
-import { IslandBtn } from "./IslandBtn";
+import { useRef } from "react";
 import { BackgroundLayers } from "./hero/BackgroundLayers";
 import { Stage } from "./hero/Stage";
-import { StatsRibbon } from "./hero/StatsRibbon";
 import { whatsappLink, WHATSAPP_MESSAGES } from "@/lib/config";
-import { useRef } from "react";
 
 const EASE = [0.32, 0.72, 0, 1] as const;
 
-/* ── Letter-by-letter reveal ─────────────────────────────── */
-const WORDS = ["מתנה", "שלא"];
-
-function LetterReveal({ word, startDelay, className }: { word: string; startDelay: number; className?: string }) {
-  const letters = Array.from(word);
+/* ── Letter-by-letter entrance ───────────────────────────── */
+function LetterReveal({
+  word,
+  delay,
+  gold,
+}: {
+  word: string;
+  delay: number;
+  gold?: boolean;
+}) {
   return (
     <motion.span
       style={{ display: "block" }}
-      className={className}
       initial="hidden"
       animate="visible"
-      variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.035, delayChildren: startDelay } } }}
+      variants={{
+        hidden: {},
+        visible: {
+          transition: { staggerChildren: 0.028, delayChildren: delay },
+        },
+      }}
     >
-      {letters.map((char, i) => (
+      {Array.from(word).map((char, i) => (
         <motion.span
           key={i}
-          style={{ display: "inline-block" }}
+          style={{
+            display: "inline-block",
+            color: gold ? "var(--gold)" : "var(--cream)",
+          }}
           variants={{
-            hidden: { opacity: 0, y: 28, filter: "blur(8px)" },
+            hidden: { opacity: 0, y: 48, skewY: 3 },
             visible: {
-              opacity: 1, y: 0, filter: "blur(0px)",
-              transition: { type: "spring", stiffness: 70, damping: 16 },
+              opacity: 1,
+              y: 0,
+              skewY: 0,
+              transition: {
+                type: "spring",
+                stiffness: 55,
+                damping: 13,
+              },
             },
           }}
         >
@@ -42,136 +58,15 @@ function LetterReveal({ word, startDelay, className }: { word: string; startDela
   );
 }
 
-/* ── Live pill ───────────────────────────────────────────── */
-function LivePill() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.1, ease: EASE }}
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 8,
-        fontSize: 11,
-        fontWeight: 600,
-        letterSpacing: "0.04em",
-        padding: "7px 16px",
-        borderRadius: 9999,
-        border: "1px solid var(--gold-20)",
-        background: "rgba(12,9,6,0.7)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        color: "var(--cream-dim)",
-        marginBottom: 28,
-      }}
-    >
-      {/* Pulsing green dot */}
-      <span style={{ position: "relative", width: 8, height: 8, flexShrink: 0 }}>
-        <motion.span
-          style={{
-            position: "absolute",
-            inset: 0,
-            borderRadius: "50%",
-            background: "#4ade80",
-            opacity: 0.4,
-          }}
-          animate={{ scale: [1, 2.2, 1], opacity: [0.4, 0, 0.4] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
-        />
-        <span
-          style={{
-            position: "absolute",
-            inset: 0,
-            borderRadius: "50%",
-            background: "#4ade80",
-          }}
-        />
-      </span>
-      זמין להזמנה · משלוח תוך 48 שעות
-    </motion.div>
-  );
-}
-
-/* ── Scroll indicator ────────────────────────────────────── */
-function ScrollIndicator() {
-  const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 120], [1, 0]);
-
-  return (
-    <motion.button
-      type="button"
-      aria-label="גלול לצפייה במארזים"
-      style={{
-        position: "absolute",
-        bottom: 28,
-        left: "50%",
-        translateX: "-50%",
-        background: "none",
-        border: "none",
-        cursor: "pointer",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 6,
-        opacity,
-        zIndex: 10,
-      }}
-      onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 1.8, duration: 0.6 }}
-    >
-      <span style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.18em", color: "var(--gold-55)", fontWeight: 600 }}>
-        גלול לצפייה
-      </span>
-      <motion.div
-        style={{
-          width: 24,
-          height: 38,
-          borderRadius: 12,
-          border: "1px solid var(--gold-30)",
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "center",
-          paddingTop: 6,
-        }}
-      >
-        <motion.div
-          style={{
-            width: 3,
-            height: 8,
-            borderRadius: 9999,
-            background: "var(--gold)",
-          }}
-          animate={{ y: [0, 10, 0], opacity: [1, 0.2, 1] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </motion.div>
-    </motion.button>
-  );
-}
-
-/* ── Ring glow around primary CTA ───────────────────────── */
-function GlowRing() {
-  return (
-    <motion.div
-      style={{
-        position: "absolute",
-        inset: -6,
-        borderRadius: 9999,
-        border: "1px solid var(--gold)",
-        pointerEvents: "none",
-      }}
-      animate={{ opacity: [0.35, 0.65, 0.35], scale: [1, 1.04, 1] }}
-      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-    />
-  );
-}
-
 /* ── Hero ────────────────────────────────────────────────── */
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { scrollY } = useScroll();
+
+  // Parallax: stage moves up slower than scroll, headline slightly faster
+  const stageY = useTransform(scrollY, [0, 700], [0, -100]);
+  const headlineY = useTransform(scrollY, [0, 700], [0, -30]);
+  const eyebrowOpacity = useTransform(scrollY, [0, 200], [1, 0]);
 
   return (
     <section
@@ -180,143 +75,193 @@ export function Hero() {
         position: "relative",
         zIndex: 10,
         minHeight: "100dvh",
+        overflow: "hidden",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "clamp(80px, 10vh, 100px) 24px clamp(80px, 10vh, 100px)",
-        gap: "clamp(40px, 5vw, 60px)",
-        overflow: "hidden",
+        justifyContent: "flex-end",
+        paddingTop: 72, // nav height
       }}
     >
       <BackgroundLayers />
 
-      {/* Inner layout: text left / stage right on desktop, stacked on mobile */}
-      <div
+      {/* Stage with parallax */}
+      <motion.div
+        style={{
+          position: "absolute",
+          inset: 0,
+          y: stageY,
+        }}
+      >
+        <Stage />
+      </motion.div>
+
+      {/* Bottom content — headline + CTA */}
+      <motion.div
         style={{
           position: "relative",
           zIndex: 5,
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "clamp(32px, 5vw, 72px)",
-          width: "100%",
-          maxWidth: 1160,
+          padding:
+            "0 clamp(24px, 5vw, 80px) clamp(52px, 9vh, 90px)",
+          y: headlineY,
         }}
       >
-        {/* ── Text column ── */}
-        <div
+        {/* Eyebrow */}
+        <motion.span
           style={{
-            flex: "1 1 320px",
-            maxWidth: 560,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-end",
-            textAlign: "right",
+            display: "block",
+            fontSize: 10,
+            fontWeight: 600,
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "var(--gold)",
+            marginBottom: 18,
+            opacity: eyebrowOpacity,
+          }}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
+        >
+          מארזי מתנה יוקרתיים · משלוח חינם · 48 שעות
+        </motion.span>
+
+        {/* Massive headline — 3 lines */}
+        <h1
+          style={{
+            fontWeight: 900,
+            fontSize: "clamp(62px, 10.5vw, 148px)",
+            lineHeight: 0.87,
+            letterSpacing: "-0.05em",
+            margin: "0 0 40px",
           }}
         >
-          <LivePill />
+          <LetterReveal word="מתנה" delay={0.45} />
+          <LetterReveal word="שלא" delay={0.6} />
+          <LetterReveal word="נשכחת." delay={0.75} gold />
+        </h1>
 
-          {/* H1 */}
-          <h1
+        {/* CTA row */}
+        <motion.div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "clamp(20px, 3vw, 40px)",
+            flexWrap: "wrap",
+          }}
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 1.2, ease: EASE }}
+        >
+          {/* Primary CTA */}
+          <a
+            href="#products"
             style={{
-              fontWeight: 900,
-              lineHeight: 0.92,
-              letterSpacing: "-0.045em",
-              fontSize: "clamp(60px, 9vw, 116px)",
-              marginBottom: 24,
-              color: "var(--cream)",
+              display: "inline-block",
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              padding: "14px 36px",
+              background: "var(--gold)",
+              color: "#0A0A0A",
+              textDecoration: "none",
+              transition: "opacity 0.2s",
+              flexShrink: 0,
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.opacity = "0.82";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.opacity = "1";
             }}
           >
-            {WORDS.map((word, i) => (
-              <LetterReveal key={word} word={word} startDelay={0.25 + i * 0.18} />
-            ))}
-            <LetterReveal word="נשכחת." startDelay={0.6} className="text-gold-shimmer" />
-          </h1>
+            גלו את המארזים
+          </a>
 
-          {/* Gold underline */}
-          <motion.div
+          {/* Secondary CTA — text link with arrow */}
+          <a
+            href={whatsappLink(WHATSAPP_MESSAGES.hero)}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
-              height: 1,
-              background: "linear-gradient(90deg, transparent, var(--gold), var(--gold-light))",
-              marginBottom: 24,
-              alignSelf: "flex-end",
-            }}
-            initial={{ scaleX: 0, width: 80, originX: 1 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.8, delay: 0.9, ease: EASE }}
-          />
-
-          <motion.p
-            style={{
-              fontSize: "clamp(15px, 1.6vw, 17px)",
-              lineHeight: 1.8,
-              color: "var(--cream-dim)",
-              maxWidth: 480,
-              marginBottom: 36,
-              fontWeight: 400,
-            }}
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.95, ease: EASE }}
-          >
-            מארזי מתנה מעוצבים בקפידה לכל אירוע — יום הולדת, חתונה, לידה וחגים.
-            כל מארז עטוף באהבה עם כרטיס אישי בכתב יד ומשלוח חינם.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 14,
-              marginBottom: 18,
-            }}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.05, ease: EASE }}
-          >
-            <div style={{ position: "relative" }}>
-              <GlowRing />
-              <IslandBtn href="#products" ariaLabel="לצפייה במארזים">
-                לצפייה במארזים
-              </IslandBtn>
-            </div>
-            <IslandBtn href={whatsappLink(WHATSAPP_MESSAGES.hero)} dark ariaLabel="שליחת הודעה בוואטסאפ">
-              שליחת הודעה
-            </IslandBtn>
-          </motion.div>
-
-          {/* Social proof row */}
-          <motion.p
-            style={{
-              fontSize: 12,
-              color: "var(--cream-mute)",
-              display: "flex",
+              display: "inline-flex",
               alignItems: "center",
-              gap: 6,
+              gap: 10,
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "0.10em",
+              textTransform: "uppercase",
+              color: "var(--cream-dim)",
+              textDecoration: "none",
+              transition: "color 0.2s, gap 0.25s",
+              flexShrink: 0,
             }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.25, duration: 0.5 }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.color = "var(--cream)";
+              el.style.gap = "16px";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.color = "var(--cream-dim)";
+              el.style.gap = "10px";
+            }}
           >
-            <span aria-label="5 כוכבים">⭐⭐⭐⭐⭐</span>
-            <span>500+ לקוחות מרוצים · 4.9/5 בביקורות</span>
-          </motion.p>
-        </div>
+            <span
+              style={{ fontSize: 16, color: "var(--gold)", lineHeight: 1 }}
+            >
+              →
+            </span>
+            <span>שליחת הודעה</span>
+          </a>
 
-        {/* ── Visual stage ── */}
-        <Stage />
-      </div>
+          {/* Social proof — pushed to end */}
+          <span
+            style={{
+              marginRight: "auto",
+              fontSize: 11,
+              color: "var(--cream-mute)",
+              letterSpacing: "0.04em",
+            }}
+          >
+            ⭐⭐⭐⭐⭐&nbsp;&nbsp;500+ לקוחות מרוצים
+          </span>
+        </motion.div>
+      </motion.div>
 
-      {/* Stats ribbon */}
-      <div style={{ position: "relative", zIndex: 5, width: "100%", display: "flex", justifyContent: "center" }}>
-        <StatsRibbon />
-      </div>
-
-      {/* Scroll indicator */}
-      <ScrollIndicator />
+      {/* Animated vertical line scroll indicator */}
+      <motion.div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          bottom: 20,
+          left: "50%",
+          translateX: "-50%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+          zIndex: 6,
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 0.8 }}
+      >
+        <motion.div
+          style={{
+            width: 1,
+            height: 44,
+            background:
+              "linear-gradient(to bottom, var(--gold), transparent)",
+            transformOrigin: "top",
+          }}
+          animate={{ scaleY: [0.3, 1, 0.3], opacity: [0.3, 1, 0.3] }}
+          transition={{
+            duration: 2.2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      </motion.div>
     </section>
   );
 }
