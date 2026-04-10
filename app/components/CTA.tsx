@@ -1,3 +1,5 @@
+"use client";
+
 import { Reveal } from "./Reveal";
 import { SITE, whatsappLink, WHATSAPP_MESSAGES } from "@/lib/config";
 
