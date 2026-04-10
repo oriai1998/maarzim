@@ -191,4 +191,5 @@ button {
 }
 @media (max-width: 767px) {
   .hidden-mobile { display: none !important; }
+  .show-desktop-stage { display: none !important; }
 }
