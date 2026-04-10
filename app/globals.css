@@ -1,30 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #080608;
-  --bg-elev: #0C0906;
-  --surface: rgba(16, 12, 8, 0.98);
-  --surface-2: rgba(22, 16, 10, 0.92);
+  --bg: #0A0A0A;
+  --bg-elev: #111111;
+  --surface: rgba(17, 17, 17, 0.98);
+  --surface-2: rgba(22, 22, 22, 0.92);
 
-  --cream: #F0E6D0;
-  --cream-dim: rgba(240, 230, 208, 0.62);
-  --cream-mute: rgba(240, 230, 208, 0.38);
+  --cream: #F0EAD6;
+  --cream-dim: rgba(240, 234, 214, 0.60);
+  --cream-mute: rgba(240, 234, 214, 0.36);
 
-  --gold: #C4993A;
-  --gold-light: #E2BC6D;
-  --gold-deep: #8B6A20;
+  --gold: #C5AE79;
+  --gold-light: #DFC99A;
+  --gold-deep: #8C7540;
 
-  --gold-06: rgba(196, 153, 58, 0.06);
-  --gold-10: rgba(196, 153, 58, 0.10);
-  --gold-14: rgba(196, 153, 58, 0.14);
-  --gold-20: rgba(196, 153, 58, 0.20);
-  --gold-30: rgba(196, 153, 58, 0.30);
-  --gold-40: rgba(196, 153, 58, 0.40);
-  --gold-55: rgba(196, 153, 58, 0.55);
+  --gold-06: rgba(197, 174, 121, 0.06);
+  --gold-10: rgba(197, 174, 121, 0.10);
+  --gold-14: rgba(197, 174, 121, 0.14);
+  --gold-20: rgba(197, 174, 121, 0.20);
+  --gold-30: rgba(197, 174, 121, 0.30);
+  --gold-40: rgba(197, 174, 121, 0.40);
+  --gold-55: rgba(197, 174, 121, 0.55);
 
   --ease-out-quart: cubic-bezier(0.32, 0.72, 0, 1);
-  --shadow-bezel: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(196, 153, 58, 0.10);
-  --shadow-glow: 0 0 80px rgba(196, 153, 58, 0.07);
+  --shadow-bezel: 0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(197, 174, 121, 0.08);
+  --shadow-glow: 0 0 80px rgba(197, 174, 121, 0.06);
 }
 
 @theme inline {
@@ -164,6 +164,38 @@ button {
   height: 6px;
   border-radius: 50%;
   background: var(--gold);
+}
+
+/* Section label — editorial eyebrow */
+.section-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+}
+
+/* Thin gold divider */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--gold-14);
+}
+
+/* Stats grid — 2 cols on mobile */
+@media (max-width: 640px) {
+  #stats > div {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  #stats > div > div:nth-child(1),
+  #stats > div > div:nth-child(2) {
+    border-bottom: 1px solid var(--gold-14);
+  }
+  #stats > div > div:nth-child(even) {
+    border-right: none !important;
+  }
 }
 
 /* Accessible focus ring */
