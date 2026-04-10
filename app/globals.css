@@ -1,38 +1,194 @@
 @import "tailwindcss";
 
 :root {
-  --background: #080608;
-  --foreground: #F0E6D0;
+  --bg: #080608;
+  --bg-elev: #0C0906;
+  --surface: rgba(16, 12, 8, 0.98);
+  --surface-2: rgba(22, 16, 10, 0.92);
+
+  --cream: #F0E6D0;
+  --cream-dim: rgba(240, 230, 208, 0.62);
+  --cream-mute: rgba(240, 230, 208, 0.38);
+
+  --gold: #C4993A;
+  --gold-light: #E2BC6D;
+  --gold-deep: #8B6A20;
+
+  --gold-06: rgba(196, 153, 58, 0.06);
+  --gold-10: rgba(196, 153, 58, 0.10);
+  --gold-14: rgba(196, 153, 58, 0.14);
+  --gold-20: rgba(196, 153, 58, 0.20);
+  --gold-30: rgba(196, 153, 58, 0.30);
+  --gold-40: rgba(196, 153, 58, 0.40);
+  --gold-55: rgba(196, 153, 58, 0.55);
+
+  --ease-out-quart: cubic-bezier(0.32, 0.72, 0, 1);
+  --shadow-bezel: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(196, 153, 58, 0.10);
+  --shadow-glow: 0 0 80px rgba(196, 153, 58, 0.07);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-bg: var(--bg);
+  --color-bg-elev: var(--bg-elev);
+  --color-surface: var(--surface);
+  --color-cream: var(--cream);
+  --color-cream-dim: var(--cream-dim);
+  --color-cream-mute: var(--cream-mute);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-gold-deep: var(--gold-deep);
+  --font-sans: var(--font-heebo), "Heebo", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--font-heebo), "Heebo", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-feature-settings: "kern", "liga", "calt";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
-a { text-decoration: none; }
+a {
+  text-decoration: none;
+  color: inherit;
+}
 
+button {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold-20);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-40);
+}
+
+/* Gold shimmer text */
 @keyframes gold-shimmer {
   0%   { background-position: -200% center; }
   100% { background-position:  200% center; }
 }
 
-.gold-shimmer {
-  background: linear-gradient(90deg, #C4993A, #E2BC6D, #C4993A, #E2BC6D);
+.text-gold-gradient {
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-gold-shimmer {
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold), var(--gold-light));
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: gold-shimmer 4s linear infinite;
+  color: transparent;
+  animation: gold-shimmer 5s linear infinite;
+}
+
+/* Bezel card surface */
+.bezel {
+  padding: 6px;
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--gold-14);
+}
+.bezel > .bezel-inner {
+  border-radius: calc(2rem - 6px);
+  overflow: hidden;
+  height: 100%;
+  background: var(--surface);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.07);
+}
+
+/* Noise overlay */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+}
+
+/* Badge/pill (eyebrow) */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  color: var(--gold-light);
+  border: 1px solid var(--gold-20);
+  background: var(--gold-06);
+}
+.eyebrow::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+
+/* Accessible focus ring */
+:focus-visible {
+  outline: 2px solid var(--gold-light);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Responsive helpers used inside client components */
+@media (min-width: 768px) {
+  .show-mobile { display: none !important; }
+}
+@media (max-width: 767px) {
+  .hidden-mobile { display: none !important; }
 }
