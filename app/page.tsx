@@ -6,6 +6,7 @@ import { Products } from "./components/Products";
 import { Testimonials } from "./components/Testimonials";
 import { CTA } from "./components/CTA";
 import { Footer } from "./components/Footer";
+import { Cursor } from "./components/Cursor";
 
 export default function MaarzimPage() {
   return (
@@ -19,7 +20,7 @@ export default function MaarzimPage() {
     >
       {/* Noise texture overlay */}
       <div className="noise-overlay" aria-hidden="true" />
-
+      <Cursor />
       <Nav />
       <Hero />
       <Stats />

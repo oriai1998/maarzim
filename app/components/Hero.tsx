@@ -229,7 +229,8 @@ export function Hero() {
               const el = e.currentTarget as HTMLElement;
               el.style.color = "var(--cream)";
               const arrow = el.querySelector("[data-arrow]") as HTMLElement;
-              if (arrow) arrow.style.transform = "translateX(-4px)";
+              // RTL: arrow points right (←), animate it further right (+x)
+              if (arrow) arrow.style.transform = "translateX(5px)";
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement;
@@ -248,7 +249,7 @@ export function Hero() {
                 display: "inline-block",
               }}
             >
-              →
+              ←
             </span>
             <span>שליחת הודעה</span>
           </a>

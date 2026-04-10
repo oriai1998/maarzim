@@ -40,47 +40,59 @@ export function Testimonials() {
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
 
-        {/* Section header */}
+        {/* Section header — different pattern: giant quote mark + headline inline */}
         <Reveal>
           <div
             style={{
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: 24,
               paddingBottom: 48,
               borderBottom: "1px solid var(--gold-14)",
               marginBottom: 64,
             }}
           >
-            <span
+            {/* Oversized decorative quote — structural, not content */}
+            <div
+              aria-hidden="true"
               style={{
-                fontSize: 11,
-                fontWeight: 600,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: "var(--gold)",
-                alignSelf: "flex-start",
+                fontSize: "clamp(80px, 14vw, 160px)",
+                lineHeight: 0.8,
+                color: "transparent",
+                WebkitTextStroke: "1px rgba(197,174,121,0.20)",
+                fontFamily: "Georgia, serif",
+                fontWeight: 400,
+                marginBottom: 16,
+                userSelect: "none",
               }}
             >
-              לקוחות
-            </span>
+              &ldquo;
+            </div>
 
-            <h2
-              style={{
-                fontSize: "clamp(34px, 5vw, 62px)",
-                fontWeight: 900,
-                letterSpacing: "-0.04em",
-                lineHeight: 0.94,
-                color: "var(--cream)",
-                margin: 0,
-                textAlign: "right",
-              }}
-            >
-              מה אומרים{" "}
-              <span style={{ color: "var(--gold)" }}>עלינו.</span>
-            </h2>
+            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
+              <h2
+                style={{
+                  fontSize: "clamp(34px, 5vw, 62px)",
+                  fontWeight: 900,
+                  letterSpacing: "-0.04em",
+                  lineHeight: 0.94,
+                  color: "var(--cream)",
+                  margin: 0,
+                }}
+              >
+                מה אומרים{" "}
+                <span style={{ color: "var(--gold)" }}>עלינו.</span>
+              </h2>
+
+              <span
+                style={{
+                  fontSize: 10,
+                  fontWeight: 600,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "var(--cream-mute)",
+                }}
+              >
+                500+ ביקורות
+              </span>
+            </div>
           </div>
         </Reveal>
 

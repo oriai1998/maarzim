@@ -88,25 +88,30 @@ export function WhyUs() {
         >
           {FEATURES.map(({ index, title, desc }, i) => (
             <Reveal key={index} delay={i * 0.1}>
-              <div
-                style={{
-                  paddingTop: 28,
-                  borderTop: "1px solid var(--gold-14)",
-                }}
-              >
-                {/* Index number */}
+              <div style={{ position: "relative", paddingTop: 32 }}>
+                {/* Large decorative index — sits behind title */}
                 <div
+                  aria-hidden="true"
                   style={{
-                    fontSize: 11,
-                    fontWeight: 700,
-                    letterSpacing: "0.2em",
-                    color: "var(--gold-40)",
-                    marginBottom: 22,
+                    position: "absolute",
+                    top: -8,
+                    insetInlineEnd: 0,
+                    fontSize: "clamp(56px, 8vw, 88px)",
+                    fontWeight: 900,
+                    letterSpacing: "-0.06em",
+                    lineHeight: 1,
+                    color: "transparent",
+                    WebkitTextStroke: "1px rgba(197,174,121,0.18)",
                     fontVariantNumeric: "tabular-nums",
+                    userSelect: "none",
+                    pointerEvents: "none",
                   }}
                 >
                   {index}
                 </div>
+
+                {/* Top border */}
+                <div style={{ borderTop: "1px solid var(--gold-14)", marginBottom: 28 }} />
 
                 <h3
                   style={{
@@ -116,6 +121,7 @@ export function WhyUs() {
                     letterSpacing: "-0.02em",
                     lineHeight: 1.2,
                     marginBottom: 16,
+                    position: "relative",
                   }}
                 >
                   {title}
@@ -124,9 +130,10 @@ export function WhyUs() {
                 <p
                   style={{
                     fontSize: 15,
-                    lineHeight: 1.8,
+                    lineHeight: 1.85,
                     color: "var(--cream-dim)",
                     margin: 0,
+                    position: "relative",
                   }}
                 >
                   {desc}
