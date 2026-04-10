@@ -75,7 +75,7 @@ export function Products() {
           }}
         >
           {PRODUCTS.map((p, i) => (
-            <ProductCard key={p.key} product={p} delay={i * 0.09} />
+            <ProductCard key={p.key} product={p} delay={i * 0.09} floatDelay={i * 1.2} />
           ))}
         </div>
       </div>
@@ -86,9 +86,11 @@ export function Products() {
 function ProductCard({
   product,
   delay,
+  floatDelay = 0,
 }: {
   product: Product;
   delay: number;
+  floatDelay?: number;
 }) {
   return (
     <Reveal delay={delay}>
@@ -99,16 +101,16 @@ function ProductCard({
           display: "flex",
           flexDirection: "column",
           height: "100%",
+          // CSS transition for border-color (Framer Motion doesn't intercept this)
+          transition: "border-color 0.3s cubic-bezier(0.22,1,0.36,1)",
         }}
-        whileHover={{ y: -6 }}
-        transition={{ type: "spring", stiffness: 200, damping: 22 }}
+        whileHover={{ y: -5 }}
+        transition={{ type: "spring", stiffness: 240, damping: 24 }}
         onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.borderColor =
-            "var(--gold-30)";
+          (e.currentTarget as HTMLElement).style.borderColor = "var(--gold-30)";
         }}
         onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.borderColor =
-            "var(--gold-14)";
+          (e.currentTarget as HTMLElement).style.borderColor = "var(--gold-14)";
         }}
       >
         {/* Illustration area */}
@@ -167,6 +169,7 @@ function ProductCard({
               duration: 5,
               repeat: Infinity,
               ease: "easeInOut",
+              delay: floatDelay,
             }}
           >
             <ProductIllustration

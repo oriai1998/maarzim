@@ -6,7 +6,7 @@ import { BackgroundLayers } from "./hero/BackgroundLayers";
 import { Stage } from "./hero/Stage";
 import { whatsappLink, WHATSAPP_MESSAGES } from "@/lib/config";
 
-const EASE = [0.32, 0.72, 0, 1] as const;
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 /* ── Letter-by-letter entrance ───────────────────────────── */
 function LetterReveal({
@@ -26,7 +26,7 @@ function LetterReveal({
       variants={{
         hidden: {},
         visible: {
-          transition: { staggerChildren: 0.028, delayChildren: delay },
+          transition: { staggerChildren: 0.03, delayChildren: delay },
         },
       }}
     >
@@ -38,15 +38,14 @@ function LetterReveal({
             color: gold ? "var(--gold)" : "var(--cream)",
           }}
           variants={{
-            hidden: { opacity: 0, y: 48, skewY: 3 },
+            hidden: { opacity: 0, y: 52 },
             visible: {
               opacity: 1,
               y: 0,
-              skewY: 0,
+              // No skewY — looks unnatural with Hebrew letterforms
               transition: {
-                type: "spring",
-                stiffness: 55,
-                damping: 13,
+                duration: 0.7,
+                ease: EASE,
               },
             },
           }}
@@ -58,15 +57,36 @@ function LetterReveal({
   );
 }
 
+/* ── Star rating — SVG, not emoji ───────────────────────── */
+function StarRating({ count = 5 }: { count?: number }) {
+  return (
+    <span style={{ display: "inline-flex", gap: 3, alignItems: "center" }}>
+      {Array.from({ length: count }).map((_, i) => (
+        <svg
+          key={i}
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="var(--gold)"
+          aria-hidden="true"
+        >
+          <path d="M5 0.5l1.18 2.4 2.64.38-1.91 1.86.45 2.63L5 6.5l-2.36 1.27.45-2.63L1.18 3.28l2.64-.38z" />
+        </svg>
+      ))}
+    </span>
+  );
+}
+
 /* ── Hero ────────────────────────────────────────────────── */
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollY } = useScroll();
 
-  // Parallax: stage moves up slower than scroll, headline slightly faster
-  const stageY = useTransform(scrollY, [0, 700], [0, -100]);
-  const headlineY = useTransform(scrollY, [0, 700], [0, -30]);
-  const eyebrowOpacity = useTransform(scrollY, [0, 200], [1, 0]);
+  // Parallax transforms
+  const stageY = useTransform(scrollY, [0, 700], [0, -90]);
+  const headlineY = useTransform(scrollY, [0, 700], [0, -28]);
+  // Fade eyebrow out on scroll — use a separate wrapper to avoid animate conflict
+  const eyebrowWrapperOpacity = useTransform(scrollY, [0, 180], [1, 0]);
 
   return (
     <section
@@ -79,18 +99,15 @@ export function Hero() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-end",
-        paddingTop: 72, // nav height
+        paddingTop: 72,
       }}
     >
       <BackgroundLayers />
 
       {/* Stage with parallax */}
       <motion.div
-        style={{
-          position: "absolute",
-          inset: 0,
-          y: stageY,
-        }}
+        style={{ position: "absolute", inset: 0, y: stageY }}
+        aria-hidden="true"
       >
         <Stage />
       </motion.div>
@@ -100,56 +117,71 @@ export function Hero() {
         style={{
           position: "relative",
           zIndex: 5,
-          padding:
-            "0 clamp(24px, 5vw, 80px) clamp(52px, 9vh, 90px)",
+          padding: "0 clamp(24px, 5vw, 80px) clamp(52px, 9vh, 88px)",
           y: headlineY,
         }}
       >
-        {/* Eyebrow */}
-        <motion.span
-          style={{
-            display: "block",
-            fontSize: 10,
-            fontWeight: 600,
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: "var(--gold)",
-            marginBottom: 18,
-            opacity: eyebrowOpacity,
-          }}
-          initial={{ opacity: 0, y: 16 }}
+        {/* Eyebrow — separate MotionValue wrapper so animate doesn't conflict */}
+        <motion.div
+          style={{ opacity: eyebrowWrapperOpacity }}
+          initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: EASE }}
+          transition={{ duration: 0.7, delay: 0.18, ease: EASE }}
         >
-          מארזי מתנה יוקרתיים · משלוח חינם · 48 שעות
-        </motion.span>
+          <span
+            style={{
+              display: "block",
+              fontSize: 10,
+              fontWeight: 600,
+              letterSpacing: "0.24em",
+              textTransform: "uppercase",
+              color: "var(--gold)",
+              marginBottom: 22,
+            }}
+          >
+            מארזי מתנה יוקרתיים · משלוח חינם · 48 שעות
+          </span>
+        </motion.div>
 
-        {/* Massive headline — 3 lines */}
+        {/* Massive headline */}
         <h1
           style={{
             fontWeight: 900,
-            fontSize: "clamp(62px, 10.5vw, 148px)",
-            lineHeight: 0.87,
+            fontSize: "clamp(60px, 10.5vw, 148px)",
+            lineHeight: 0.88,
             letterSpacing: "-0.05em",
-            margin: "0 0 40px",
+            margin: "0 0 36px",
           }}
         >
-          <LetterReveal word="מתנה" delay={0.45} />
-          <LetterReveal word="שלא" delay={0.6} />
-          <LetterReveal word="נשכחת." delay={0.75} gold />
+          <LetterReveal word="מתנה" delay={0.42} />
+          <LetterReveal word="שלא" delay={0.58} />
+          <LetterReveal word="נשכחת." delay={0.74} gold />
         </h1>
+
+        {/* Thin separator */}
+        <motion.div
+          style={{
+            width: 40,
+            height: 1,
+            background: "var(--gold-40)",
+            marginBottom: 28,
+          }}
+          initial={{ scaleX: 0, originX: 1 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.6, delay: 1.1, ease: EASE }}
+        />
 
         {/* CTA row */}
         <motion.div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "clamp(20px, 3vw, 40px)",
+            gap: "clamp(18px, 3vw, 36px)",
             flexWrap: "wrap",
           }}
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.2, ease: EASE }}
+          transition={{ duration: 0.65, delay: 1.18, ease: EASE }}
         >
           {/* Primary CTA */}
           <a
@@ -164,11 +196,10 @@ export function Hero() {
               background: "var(--gold)",
               color: "#0A0A0A",
               textDecoration: "none",
-              transition: "opacity 0.2s",
               flexShrink: 0,
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.opacity = "0.82";
+              (e.currentTarget as HTMLElement).style.opacity = "0.80";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLElement).style.opacity = "1";
@@ -177,7 +208,7 @@ export function Hero() {
             גלו את המארזים
           </a>
 
-          {/* Secondary CTA — text link with arrow */}
+          {/* Secondary CTA — text link with animated arrow */}
           <a
             href={whatsappLink(WHATSAPP_MESSAGES.hero)}
             target="_blank"
@@ -192,74 +223,92 @@ export function Hero() {
               textTransform: "uppercase",
               color: "var(--cream-dim)",
               textDecoration: "none",
-              transition: "color 0.2s, gap 0.25s",
               flexShrink: 0,
             }}
             onMouseEnter={(e) => {
               const el = e.currentTarget as HTMLElement;
               el.style.color = "var(--cream)";
-              el.style.gap = "16px";
+              const arrow = el.querySelector("[data-arrow]") as HTMLElement;
+              if (arrow) arrow.style.transform = "translateX(-4px)";
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement;
               el.style.color = "var(--cream-dim)";
-              el.style.gap = "10px";
+              const arrow = el.querySelector("[data-arrow]") as HTMLElement;
+              if (arrow) arrow.style.transform = "translateX(0)";
             }}
           >
             <span
-              style={{ fontSize: 16, color: "var(--gold)", lineHeight: 1 }}
+              data-arrow="true"
+              style={{
+                fontSize: 15,
+                color: "var(--gold)",
+                lineHeight: 1,
+                transition: "transform 0.28s cubic-bezier(0.22,1,0.36,1)",
+                display: "inline-block",
+              }}
             >
               →
             </span>
             <span>שליחת הודעה</span>
           </a>
 
-          {/* Social proof — pushed to end */}
+          {/* Social proof — SVG stars, clean */}
           <span
             style={{
               marginRight: "auto",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
               fontSize: 11,
               color: "var(--cream-mute)",
-              letterSpacing: "0.04em",
             }}
           >
-            ⭐⭐⭐⭐⭐&nbsp;&nbsp;500+ לקוחות מרוצים
+            <StarRating />
+            <span>500+ לקוחות מרוצים</span>
           </span>
         </motion.div>
       </motion.div>
 
-      {/* Animated vertical line scroll indicator */}
+      {/* Scroll indicator — refined vertical line */}
       <motion.div
         aria-hidden="true"
         style={{
           position: "absolute",
-          bottom: 20,
+          bottom: 24,
           left: "50%",
-          translateX: "-50%",
+          x: "-50%",
+          zIndex: 6,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 8,
-          zIndex: 6,
+          gap: 10,
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 0.8 }}
+        transition={{ delay: 2.2, duration: 1 }}
       >
+        <span
+          style={{
+            fontSize: 9,
+            fontWeight: 600,
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "var(--gold-40)",
+          }}
+        >
+          גלול
+        </span>
         <motion.div
           style={{
             width: 1,
-            height: 44,
+            height: 36,
             background:
-              "linear-gradient(to bottom, var(--gold), transparent)",
+              "linear-gradient(to bottom, var(--gold-55), transparent)",
             transformOrigin: "top",
           }}
-          animate={{ scaleY: [0.3, 1, 0.3], opacity: [0.3, 1, 0.3] }}
-          transition={{
-            duration: 2.2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          animate={{ scaleY: [0.2, 1, 0.2], opacity: [0.2, 1, 0.2] }}
+          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
         />
       </motion.div>
     </section>

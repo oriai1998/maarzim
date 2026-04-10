@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { Reveal } from "./Reveal";
 
 const STATS = [
@@ -28,27 +31,27 @@ export function Stats() {
         }}
       >
         {STATS.map((stat, i) => (
-          <Reveal key={stat.label} delay={i * 0.08}>
-            <div
+          <Reveal key={stat.label} delay={i * 0.07}>
+            <motion.div
               style={{
-                padding:
-                  "clamp(44px, 7vw, 80px) clamp(16px, 3vw, 40px)",
+                padding: "clamp(48px, 7vw, 88px) clamp(16px, 3vw, 40px)",
                 borderRight:
-                  i < STATS.length - 1
-                    ? "1px solid var(--gold-14)"
-                    : "none",
+                  i < STATS.length - 1 ? "1px solid var(--gold-14)" : "none",
                 textAlign: "center",
+                cursor: "default",
               }}
+              whileHover={{ y: -3 }}
+              transition={{ type: "spring", stiffness: 260, damping: 22 }}
             >
               {/* Big number */}
               <div
                 style={{
-                  fontSize: "clamp(40px, 5.5vw, 76px)",
+                  fontSize: "clamp(38px, 5.5vw, 76px)",
                   fontWeight: 900,
-                  letterSpacing: "-0.04em",
+                  letterSpacing: "-0.045em",
                   lineHeight: 1,
                   color: "var(--gold)",
-                  marginBottom: 12,
+                  marginBottom: 14,
                   fontVariantNumeric: "tabular-nums",
                 }}
               >
@@ -58,16 +61,17 @@ export function Stats() {
               {/* Label */}
               <div
                 style={{
-                  fontSize: 11,
+                  fontSize: 10,
                   fontWeight: 600,
-                  letterSpacing: "0.16em",
+                  letterSpacing: "0.18em",
                   textTransform: "uppercase",
                   color: "var(--cream-mute)",
+                  lineHeight: 1.4,
                 }}
               >
                 {stat.label}
               </div>
-            </div>
+            </motion.div>
           </Reveal>
         ))}
       </div>

@@ -101,15 +101,15 @@ export function Testimonials() {
                   borderTop: "1px solid var(--gold-14)",
                 }}
               >
-                {/* Large opening quotation mark */}
+                {/* Opening quotation mark — refined size and opacity */}
                 <div
                   style={{
-                    fontSize: 72,
+                    fontSize: 56,
                     lineHeight: 1,
-                    color: "var(--gold-20)",
-                    fontWeight: 900,
-                    marginBottom: 12,
-                    fontFamily: "Georgia, serif",
+                    color: "var(--gold-30)",
+                    fontWeight: 400,
+                    marginBottom: 20,
+                    fontFamily: "Georgia, 'Times New Roman', serif",
                     userSelect: "none",
                   }}
                   aria-hidden="true"
@@ -120,10 +120,10 @@ export function Testimonials() {
                 {/* Quote text */}
                 <blockquote
                   style={{
-                    fontSize: "clamp(15px, 1.7vw, 18px)",
-                    lineHeight: 1.78,
-                    color: "var(--cream)",
-                    margin: "0 0 32px",
+                    fontSize: "clamp(15px, 1.6vw, 17px)",
+                    lineHeight: 1.85,
+                    color: "var(--cream-dim)",
+                    margin: "0 0 36px",
                     fontStyle: "normal",
                     quotes: "none",
                   }}
@@ -131,15 +131,20 @@ export function Testimonials() {
                   {t.quote}
                 </blockquote>
 
-                {/* Attribution */}
-                <div>
+                {/* Attribution — thin line separator */}
+                <div
+                  style={{
+                    paddingTop: 20,
+                    borderTop: "1px solid var(--gold-10)",
+                  }}
+                >
                   <div
                     style={{
                       fontSize: 13,
                       fontWeight: 700,
                       color: "var(--gold)",
-                      marginBottom: 5,
-                      letterSpacing: "-0.01em",
+                      marginBottom: 4,
+                      letterSpacing: "0.01em",
                     }}
                   >
                     {t.name}
@@ -148,7 +153,7 @@ export function Testimonials() {
                     style={{
                       fontSize: 10,
                       fontWeight: 600,
-                      letterSpacing: "0.14em",
+                      letterSpacing: "0.16em",
                       textTransform: "uppercase",
                       color: "var(--cream-mute)",
                     }}

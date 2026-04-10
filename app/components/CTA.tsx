@@ -10,12 +10,30 @@ export function CTA() {
       style={{
         position: "relative",
         zIndex: 10,
-        padding:
-          "clamp(100px, 14vw, 160px) clamp(24px, 5vw, 80px)",
-        background: "var(--bg-elev)",
+        padding: "clamp(100px, 14vw, 160px) clamp(24px, 5vw, 80px)",
+        // Distinct from adjacent bg-elev sections — pure black with faint gold vignette
+        background: "#0A0A0A",
         borderTop: "1px solid var(--gold-14)",
+        overflow: "hidden",
       }}
     >
+      {/* Subtle corner glow — marks this as a finale section */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          bottom: "-10%",
+          right: "-5%",
+          width: "40vw",
+          height: "40vw",
+          maxWidth: 480,
+          maxHeight: 480,
+          borderRadius: "50%",
+          background:
+            "radial-gradient(ellipse at center, rgba(197,174,121,0.04) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
 
         {/* Section label */}
