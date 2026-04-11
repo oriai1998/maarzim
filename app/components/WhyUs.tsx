@@ -1,4 +1,9 @@
-import { Reveal } from "./Reveal";
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 const FEATURES = [
   {
@@ -18,66 +23,149 @@ const FEATURES = [
   },
 ] as const;
 
+function FeatureCard({
+  index,
+  title,
+  desc,
+  i,
+}: {
+  index: string;
+  title: string;
+  desc: string;
+  i: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+
+  return (
+    <motion.div
+      ref={ref}
+      style={{ position: "relative", paddingTop: 28, overflow: "hidden" }}
+      initial={{ opacity: 0, x: i % 2 === 0 ? 32 : -32 }}
+      animate={inView ? { opacity: 1, x: 0 } : undefined}
+      transition={{ duration: 0.7, delay: i * 0.1, ease: EASE }}
+    >
+      {/* Faint background index number */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: -10,
+          insetInlineEnd: 0,
+          fontSize: "clamp(60px, 9vw, 96px)",
+          fontWeight: 800,
+          color: "transparent",
+          WebkitTextStroke: "1px rgba(255,255,255,0.04)",
+          lineHeight: 1,
+          userSelect: "none",
+          pointerEvents: "none",
+          fontVariantNumeric: "tabular-nums",
+        }}
+      >
+        {index}
+      </div>
+
+      {/* Top border */}
+      <div
+        style={{ borderTop: "1px solid var(--border)", marginBottom: 24 }}
+      />
+
+      {/* Index label */}
+      <div
+        style={{
+          fontSize: 9,
+          fontWeight: 600,
+          letterSpacing: "0.2em",
+          textTransform: "uppercase",
+          color: "var(--text-3)",
+          marginBottom: 12,
+          fontFamily: "var(--font-inter), Inter, sans-serif",
+        }}
+      >
+        WHY {index}
+      </div>
+
+      <h3
+        style={{
+          fontSize: "clamp(18px, 2vw, 22px)",
+          fontWeight: 700,
+          color: "var(--text)",
+          letterSpacing: "-0.02em",
+          lineHeight: 1.2,
+          marginBottom: 14,
+          position: "relative",
+        }}
+      >
+        {title}
+      </h3>
+
+      <p
+        style={{
+          fontSize: 14,
+          lineHeight: 1.85,
+          color: "var(--text-2)",
+          margin: 0,
+          position: "relative",
+        }}
+      >
+        {desc}
+      </p>
+    </motion.div>
+  );
+}
+
 export function WhyUs() {
   return (
     <section
       id="why"
       style={{
-        position: "relative",
-        zIndex: 10,
-        padding:
-          "clamp(100px, 14vw, 160px) clamp(24px, 5vw, 80px)",
+        padding: "clamp(80px, 12vw, 140px) clamp(24px, 5vw, 80px)",
       }}
     >
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-
-        {/* Section header — label left, headline right */}
-        <Reveal>
-          <div
+        {/* Header */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 24,
+            paddingBottom: 48,
+            borderBottom: "1px solid var(--border)",
+            marginBottom: 64,
+          }}
+        >
+          <span
             style={{
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-              gap: 24,
-              paddingBottom: 48,
-              borderBottom: "1px solid var(--gold-14)",
-              marginBottom: 64,
+              fontSize: 10,
+              fontWeight: 600,
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "var(--text-3)",
+              alignSelf: "flex-start",
             }}
           >
-            <span
-              style={{
-                fontSize: 11,
-                fontWeight: 600,
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: "var(--gold)",
-                alignSelf: "flex-start",
-              }}
-            >
-              למה מארזים
-            </span>
+            למה מארזים
+          </span>
+          <h2
+            style={{
+              fontSize: "clamp(28px, 4vw, 52px)",
+              fontWeight: 800,
+              letterSpacing: "-0.04em",
+              lineHeight: 0.95,
+              color: "var(--text)",
+              margin: 0,
+              maxWidth: 440,
+              textAlign: "right",
+            }}
+          >
+            לא סתם מארז.{" "}
+            <span style={{ color: "var(--gold)" }}>חוויה.</span>
+          </h2>
+        </div>
 
-            <h2
-              style={{
-                fontSize: "clamp(34px, 5vw, 62px)",
-                fontWeight: 900,
-                letterSpacing: "-0.04em",
-                lineHeight: 0.94,
-                color: "var(--cream)",
-                margin: 0,
-                maxWidth: 500,
-                textAlign: "right",
-              }}
-            >
-              לא סתם מארז.
-              <br />
-              <span style={{ color: "var(--gold)" }}>חוויה.</span>
-            </h2>
-          </div>
-        </Reveal>
-
-        {/* Features — 3 columns, thin top border only */}
+        {/* Cards */}
         <div
           style={{
             display: "grid",
@@ -86,60 +174,8 @@ export function WhyUs() {
             gap: "clamp(32px, 5vw, 64px)",
           }}
         >
-          {FEATURES.map(({ index, title, desc }, i) => (
-            <Reveal key={index} delay={i * 0.1}>
-              <div style={{ position: "relative", paddingTop: 32 }}>
-                {/* Large decorative index — sits behind title */}
-                <div
-                  aria-hidden="true"
-                  style={{
-                    position: "absolute",
-                    top: -8,
-                    insetInlineEnd: 0,
-                    fontSize: "clamp(56px, 8vw, 88px)",
-                    fontWeight: 900,
-                    letterSpacing: "-0.06em",
-                    lineHeight: 1,
-                    color: "transparent",
-                    WebkitTextStroke: "1px rgba(197,174,121,0.18)",
-                    fontVariantNumeric: "tabular-nums",
-                    userSelect: "none",
-                    pointerEvents: "none",
-                  }}
-                >
-                  {index}
-                </div>
-
-                {/* Top border */}
-                <div style={{ borderTop: "1px solid var(--gold-14)", marginBottom: 28 }} />
-
-                <h3
-                  style={{
-                    fontSize: "clamp(19px, 2.2vw, 24px)",
-                    fontWeight: 800,
-                    color: "var(--cream)",
-                    letterSpacing: "-0.02em",
-                    lineHeight: 1.2,
-                    marginBottom: 16,
-                    position: "relative",
-                  }}
-                >
-                  {title}
-                </h3>
-
-                <p
-                  style={{
-                    fontSize: 15,
-                    lineHeight: 1.85,
-                    color: "var(--cream-dim)",
-                    margin: 0,
-                    position: "relative",
-                  }}
-                >
-                  {desc}
-                </p>
-              </div>
-            </Reveal>
+          {FEATURES.map((f, i) => (
+            <FeatureCard key={f.index} {...f} i={i} />
           ))}
         </div>
       </div>
