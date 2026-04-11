@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maarzim — Vision V2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #080808;
+  color: #F0EAD6;
+  font-family: 'Inter', -apple-system, sans-serif;
+  padding: 40px 24px 100px;
+}
+
+h1 {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.22em;
+  text-transform: uppercase; color: rgba(197,174,121,0.5);
+  text-align: center; margin-bottom: 8px;
+}
+.subtitle {
+  font-size: 11px; color: rgba(240,234,214,0.3);
+  text-align: center; margin-bottom: 48px; letter-spacing: 0.04em;
+}
+
+.screens { display: flex; flex-direction: column; gap: 56px; max-width: 900px; margin: 0 auto; }
+
+.screen-lbl {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(197,174,121,0.4); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.screen-lbl::after { content:''; flex:1; height:1px; background:rgba(197,174,121,0.08); }
+
+.frame {
+  border: 1px solid rgba(255,255,255,0.06);
+  background: #0A0A0A;
+  overflow: hidden;
+  position: relative;
+}
+/* Subtle top glow */
+.frame::before {
+  content: '';
+  position: absolute; top: 0; left: 20%; right: 20%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(197,174,121,0.25), transparent);
+  pointer-events: none;
+}
+
+/* ══ NAV ══ */
+.nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 60px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.nav-logo { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; color: #C5AE79; }
+.nav-links { display: flex; gap: 32px; }
+.nav-link { font-size: 12px; font-weight: 400; color: rgba(240,234,214,0.4); }
+.nav-cta {
+  font-size: 11px; font-weight: 600; padding: 8px 20px;
+  background: rgba(197,174,121,0.1);
+  border: 1px solid rgba(197,174,121,0.2);
+  color: #C5AE79;
+  letter-spacing: 0.04em;
+}
+/* progress line */
+.progress-bar {
+  position: absolute; bottom: 0; left: 0;
+  width: 40%; height: 1px;
+  background: linear-gradient(to right, rgba(197,174,121,0.6), transparent);
+}
+
+/* ══ HERO ══ */
+.hero-body {
+  padding: 80px 40px 0;
+  min-height: 420px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  align-items: center; position: relative; overflow: hidden;
+}
+/* background radial glow */
+.hero-body::before {
+  content: '';
+  position: absolute; top: -40%; right: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(ellipse, rgba(197,174,121,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-left {}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(197,174,121,0.7);
+  border: 1px solid rgba(197,174,121,0.15);
+  padding: 5px 12px; margin-bottom: 28px;
+  background: rgba(197,174,121,0.04);
+}
+.hero-tag::before { content:''; width:5px; height:5px; border-radius:50%; background:#C5AE79; }
+.hero-h1 {
+  font-size: 58px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.0;
+  color: #F0EAD6; margin-bottom: 20px;
+}
+.hero-h1 em { color: #C5AE79; font-style: normal; display: block; }
+.hero-sub {
+  font-size: 14px; font-weight: 400; color: rgba(240,234,214,0.4);
+  line-height: 1.65; margin-bottom: 36px; max-width: 340px;
+}
+.hero-actions { display: flex; align-items: center; gap: 20px; }
+.btn-primary {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+  padding: 13px 30px; background: #C5AE79; color: #0A0A0A;
+}
+.btn-ghost {
+  font-size: 12px; font-weight: 500; color: rgba(240,234,214,0.5);
+  display: flex; align-items: center; gap: 7px;
+}
+.btn-ghost span { font-size: 16px; color: #C5AE79; }
+
+/* Floating card — hero right */
+.hero-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  padding: 28px 24px;
+  position: relative;
+}
+.hero-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, rgba(197,174,121,0.3), transparent);
+}
+.hcard-tag { font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(197,174,121,0.6); margin-bottom: 14px; }
+.hcard-name { font-size: 18px; font-weight: 700; color: #F0EAD6; letter-spacing: -0.02em; margin-bottom: 5px; }
+.hcard-price { font-size: 28px; font-weight: 800; color: #C5AE79; letter-spacing: -0.03em; margin-bottom: 20px; }
+.hcard-items { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.hcard-item { display: flex; align-items: center; gap: 10px; font-size: 12px; color: rgba(240,234,214,0.5); }
+.hcard-item::before { content:''; width: 3px; height: 3px; border-radius: 50%; background: rgba(197,174,121,0.5); flex-shrink: 0; }
+.hcard-cta {
+  width: 100%; padding: 11px; font-size: 11px; font-weight: 600;
+  border: 1px solid rgba(197,174,121,0.25); color: #C5AE79;
+  text-align: center; letter-spacing: 0.06em; background: transparent;
+}
+
+/* ══ INFO STRIP below hero ══ */
+.info-strip {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: 48px;
+}
+.info-cell { padding: 20px 40px; }
+.info-cell:not(:last-child) { border-left: 1px solid rgba(255,255,255,0.05); }
+.info-lbl { font-size: 9px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(197,174,121,0.4); margin-bottom: 5px; }
+.info-val { font-size: 15px; font-weight: 700; color: rgba(240,234,214,0.85); letter-spacing: -0.01em; }
+
+/* ══ STATS ══ */
+.stats-sec { background: #0A0A0A; }
+.stats-inner {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.stat { padding: 44px 32px; text-align: center; }
+.stat:not(:last-child) { border-left: 1px solid rgba(255,255,255,0.04); }
+.stat-num {
+  font-size: 44px; font-weight: 800; letter-spacing: -0.05em;
+  color: #C5AE79; line-height: 1; margin-bottom: 8px;
+}
+.stat-lbl { font-size: 11px; font-weight: 400; color: rgba(240,234,214,0.35); letter-spacing: 0.05em; }
+
+/* ══ PRODUCTS ══ */
+.prod-sec { background: #0A0A0A; }
+.prod-header {
+  padding: 48px 40px 40px;
+  display: flex; justify-content: space-between; align-items: flex-end;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.prod-label { font-size: 9px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(197,174,121,0.5); margin-bottom: 12px; }
+.prod-title { font-size: 32px; font-weight: 700; letter-spacing: -0.03em; color: #F0EAD6; }
+.prod-title em { color: #C5AE79; font-style: normal; }
+.prod-count { font-size: 11px; color: rgba(240,234,214,0.25); }
+
+.prod-grid { display: grid; grid-template-columns: repeat(3,1fr); }
+.prod-card {
+  border-left: 1px solid rgba(255,255,255,0.04);
+  display: flex; flex-direction: column;
+  transition: background 0.3s;
+}
+.prod-card:first-child { border-left: none; }
+.prod-img {
+  height: 160px;
+  background: radial-gradient(ellipse at 50% 40%, rgba(197,174,121,0.07) 0%, transparent 65%);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 44px; position: relative;
+}
+.prod-badge {
+  position: absolute; top: 14px; right: 14px;
+  font-size: 8px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 4px 9px; background: #C5AE79; color: #0A0A0A;
+}
+.prod-num {
+  position: absolute; bottom: 12px; left: 14px;
+  font-size: 9px; color: rgba(197,174,121,0.3); font-weight: 500;
+}
+.prod-body { padding: 22px 24px; flex: 1; display: flex; flex-direction: column; }
+.prod-tier { font-size: 9px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(197,174,121,0.6); margin-bottom: 8px; }
+.prod-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.prod-name { font-size: 16px; font-weight: 700; color: #F0EAD6; letter-spacing: -0.02em; }
+.prod-price { font-size: 18px; font-weight: 800; color: #C5AE79; }
+.prod-desc { font-size: 12px; color: rgba(240,234,214,0.35); line-height: 1.7; flex: 1; margin-bottom: 18px; }
+.prod-btn {
+  padding: 10px; font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; border: 1px solid rgba(197,174,121,0.2); color: rgba(197,174,121,0.6);
+  text-align: center;
+}
+
+/* ══ TESTIMONIALS ══ */
+.testi-sec { background: #0A0A0A; }
+.testi-header { padding: 48px 40px 36px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.testi-track { display: flex; }
+.testi-card {
+  flex: 0 0 33.333%; padding: 32px 32px;
+  border-left: 1px solid rgba(255,255,255,0.04);
+}
+.testi-card:first-child { border-left: none; }
+.testi-stars { color: #C5AE79; font-size: 11px; letter-spacing: 2px; margin-bottom: 14px; }
+.testi-text { font-size: 13px; font-weight: 400; color: rgba(240,234,214,0.55); line-height: 1.75; margin-bottom: 18px; }
+.testi-name { font-size: 11px; font-weight: 600; color: rgba(240,234,214,0.7); margin-bottom: 2px; }
+.testi-city { font-size: 10px; color: rgba(240,234,214,0.25); }
+.testi-card:last-child { opacity: 0.45; }
+
+/* ══ CTA ══ */
+.cta-sec {
+  padding: 80px 40px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.cta-sec::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(197,174,121,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+.cta-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(197,174,121,0.5); margin-bottom: 20px; }
+.cta-h2 { font-size: 52px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; color: #F0EAD6; margin-bottom: 32px; }
+.cta-h2 em { color: #C5AE79; font-style: normal; }
+.cta-sub { font-size: 14px; color: rgba(240,234,214,0.35); margin-bottom: 40px; }
+.cta-btn {
+  display: inline-block; padding: 15px 44px;
+  background: #C5AE79; color: #0A0A0A;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+}
+.cta-ghost {
+  display: inline-block; margin-right: 16px; padding: 15px 28px;
+  border: 1px solid rgba(255,255,255,0.08); color: rgba(240,234,214,0.4);
+  font-size: 12px; font-weight: 500;
+}
+
+/* ══ MOBILE ══ */
+.mobile-wrap { display: flex; justify-content: center; }
+.mobile {
+  width: 300px; border: 1px solid rgba(255,255,255,0.08);
+  background: #0A0A0A; overflow: hidden;
+}
+.mob-bar { height: 28px; background: #080808; display:flex; align-items:center; justify-content:center; }
+.mob-pill { width: 56px; height: 4px; background: #1a1a1a; border-radius: 10px; }
+.mob-nav { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid rgba(255,255,255,0.05); }
+.mob-logo { font-size:13px; font-weight:700; letter-spacing:0.1em; color:#C5AE79; }
+.mob-menu { display:flex; flex-direction:column; gap:4px; }
+.mob-bar2 { width:18px; height:1px; background:rgba(240,234,214,0.4); }
+.mob-hero { padding: 36px 20px 0; }
+.mob-tag { font-size:8px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(197,174,121,0.6); margin-bottom:14px; }
+.mob-h1 { font-size:44px; font-weight:800; letter-spacing:-0.04em; line-height:1.0; color:#F0EAD6; margin-bottom:18px; }
+.mob-h1 em { color:#C5AE79; font-style:normal; }
+.mob-sub { font-size:12px; color:rgba(240,234,214,0.38); line-height:1.6; margin-bottom:24px; }
+.mob-cta { padding:12px 24px; background:#C5AE79; color:#0A0A0A; font-size:11px; font-weight:700; letter-spacing:0.06em; display:inline-block; margin-bottom:32px; }
+.mob-strip { border-top:1px solid rgba(255,255,255,0.05); display:grid; grid-template-columns:1fr 1fr; }
+.mob-cell { padding:14px 18px; }
+.mob-cell:nth-child(odd) { border-left:1px solid rgba(255,255,255,0.05); }
+.mob-cell:nth-child(1),
+.mob-cell:nth-child(2) { border-bottom:1px solid rgba(255,255,255,0.05); }
+.mob-lbl { font-size:7px; letter-spacing:0.15em; text-transform:uppercase; color:rgba(197,174,121,0.4); margin-bottom:3px; }
+.mob-val { font-size:13px; font-weight:700; color:rgba(240,234,214,0.85); }
+
+.badge-row { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:20px; }
+.badge { font-size:9px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; padding:5px 11px; border:1px solid rgba(197,174,121,0.2); color:rgba(197,174,121,0.7); background:rgba(197,174,121,0.04); }
+</style>
+</head>
+<body>
+
+<h1>✦ MAARZIM — Vision V2</h1>
+<p class="subtitle">נקי · מקצועי · dark luxury · micro-interactions</p>
+
+<div class="screens">
+
+  <!-- HERO -->
+  <div>
+    <div class="screen-lbl">01 · HERO — desktop</div>
+    <div class="frame">
+      <div class="nav">
+        <div class="nav-links" style="flex-direction:row-reverse">
+          <span class="nav-link">מארזים</span>
+          <span class="nav-link">המלצות</span>
+        </div>
+        <div class="nav-logo">MAARZIM</div>
+        <div class="nav-links" style="align-items:center">
+          <span class="nav-link">למה אנחנו</span>
+          <span class="nav-cta">הזמנה</span>
+        </div>
+        <div class="progress-bar"></div>
+      </div>
+
+      <div class="hero-body">
+        <div class="hero-left">
+          <div class="hero-tag">מארזי מתנה יוקרתיים</div>
+          <div class="hero-h1">
+            מתנה<br/>שלא
+            <em>נשכחת.</em>
+          </div>
+          <div class="hero-sub">אריזות יוקרה בהתאמה אישית, משלוח תוך 48 שעות לכל רחבי ישראל.</div>
+          <div class="hero-actions">
+            <div class="btn-primary">גלו את המארזים</div>
+            <div class="btn-ghost"><span>←</span> שליחת הודעה</div>
+          </div>
+        </div>
+        <div>
+          <!-- Floating card -->
+          <div class="hero-card">
+            <div class="hcard-tag">✦ הנמכר ביותר</div>
+            <div class="hcard-name">מארז פרימיום</div>
+            <div class="hcard-price">₪299</div>
+            <div class="hcard-items">
+              <div class="hcard-item">יין איכותי נבחר</div>
+              <div class="hcard-item">שוקולד בלגי</div>
+              <div class="hcard-item">נר ריחני יוקרתי</div>
+              <div class="hcard-item">כרטיס ברכה אישי</div>
+            </div>
+            <div class="hcard-cta">הזמנה בוואטסאפ</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-strip">
+        <div class="info-cell">
+          <div class="info-lbl">What</div>
+          <div class="info-val">מארזי יוקרה</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-lbl">Delivery</div>
+          <div class="info-val">48 שעות</div>
+        </div>
+        <div class="info-cell">
+          <div class="info-lbl">Coverage</div>
+          <div class="info-val">כל ישראל</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div>
+    <div class="screen-lbl">02 · STATS — count-up on scroll</div>
+    <div class="frame stats-sec">
+      <div class="stats-inner">
+        <div class="stat">
+          <div class="stat-num">500+</div>
+          <div class="stat-lbl">לקוחות מרוצים</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">3</div>
+          <div class="stat-lbl">שנות ניסיון</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">48h</div>
+          <div class="stat-lbl">זמן משלוח</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4.9</div>
+          <div class="stat-lbl">דירוג ממוצע</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCTS -->
+  <div>
+    <div class="screen-lbl">03 · PRODUCTS — reveal on scroll</div>
+    <div class="frame prod-sec">
+      <div class="prod-header">
+        <div>
+          <div class="prod-label">המארזים שלנו</div>
+          <div class="prod-title">בחרו את המארז <em>המושלם.</em></div>
+        </div>
+        <div class="prod-count">04 מוצרים</div>
+      </div>
+      <div class="prod-grid">
+        <div class="prod-card">
+          <div class="prod-img">
+            🎁
+            <div class="prod-badge">פופולרי</div>
+            <div class="prod-num">01</div>
+          </div>
+          <div class="prod-body">
+            <div class="prod-tier">Classic</div>
+            <div class="prod-row">
+              <div class="prod-name">מארז סטנדרט</div>
+              <div class="prod-price">₪199</div>
+            </div>
+            <div class="prod-desc">שוקולד בלגי, נר ריחני, כרטיס ברכה אישי.</div>
+            <div class="prod-btn">הזמנה בוואטסאפ</div>
+          </div>
+        </div>
+        <div class="prod-card" style="background:rgba(197,174,121,0.02);">
+          <div class="prod-img">
+            ✨
+            <div class="prod-badge">הכי נמכר</div>
+            <div class="prod-num">02</div>
+          </div>
+          <div class="prod-body">
+            <div class="prod-tier">Premium</div>
+            <div class="prod-row">
+              <div class="prod-name">מארז פרימיום</div>
+              <div class="prod-price">₪299</div>
+            </div>
+            <div class="prod-desc">יין, שוקולד, גבינות מובחרות, נר ריחני.</div>
+            <div class="prod-btn" style="border-color:rgba(197,174,121,0.35);color:#C5AE79;">הזמנה בוואטסאפ</div>
+          </div>
+        </div>
+        <div class="prod-card">
+          <div class="prod-img">
+            👑
+            <div class="prod-num">03</div>
+          </div>
+          <div class="prod-body">
+            <div class="prod-tier">VIP</div>
+            <div class="prod-row">
+              <div class="prod-name">מארז VIP</div>
+              <div class="prod-price">₪499</div>
+            </div>
+            <div class="prod-desc">שמפניה, שוקולד, בשמים, נר יוקרה.</div>
+            <div class="prod-btn">הזמנה בוואטסאפ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div>
+    <div class="screen-lbl">04 · TESTIMONIALS — auto-scroll</div>
+    <div class="frame testi-sec">
+      <div class="testi-header">
+        <span style="font-size:9px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:rgba(197,174,121,0.5);">מה אומרים עלינו</span>
+      </div>
+      <div class="testi-track">
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-text">המארז הגיע מהר ממש ונראה מדהים. כולם השתגעו מהאריזה, שלחתי עוד שניים.</div>
+          <div class="testi-name">דנה כהן</div>
+          <div class="testi-city">תל אביב</div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-text">שירות מקצועי. הכרטיס ברכה האישי גרם לאמא שלי לבכות מאושר.</div>
+          <div class="testi-name">יוסי מזרחי</div>
+          <div class="testi-city">ירושלים</div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-text">הפתיע אותי כמה זה נראה יקר ומיוחד. שווה כל שקל!</div>
+          <div class="testi-name">מיכל רוזן</div>
+          <div class="testi-city">חיפה</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div>
+    <div class="screen-lbl">05 · CTA — parallax + magnetic button</div>
+    <div class="frame">
+      <div class="cta-sec">
+        <div class="cta-tag">מוכנים להפתיע?</div>
+        <div class="cta-h2">תנו לנו לדאוג<br/>ל<em>כל</em> השאר.</div>
+        <div class="cta-sub">מארז שמשאיר רושם. מהיר, אישי, יוקרתי.</div>
+        <div>
+          <div class="cta-ghost">קראו עוד</div>
+          <div class="cta-btn">הזמינו עכשיו ←</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE -->
+  <div>
+    <div class="screen-lbl">06 · MOBILE</div>
+    <div class="mobile-wrap">
+      <div class="mobile">
+        <div class="mob-bar"><div class="mob-pill"></div></div>
+        <div class="mob-nav">
+          <div class="mob-logo">MAARZIM</div>
+          <div class="mob-menu">
+            <div class="mob-bar2"></div>
+            <div class="mob-bar2"></div>
+            <div class="mob-bar2" style="width:12px"></div>
+          </div>
+        </div>
+        <div class="mob-hero">
+          <div class="mob-tag">מארזי מתנה יוקרתיים</div>
+          <div class="mob-h1">מתנה שלא <em>נשכחת.</em></div>
+          <div class="mob-sub">אריזות יוקרה, משלוח 48 שעות לכל ישראל.</div>
+          <div class="mob-cta">גלו את המארזים</div>
+          <div class="mob-strip">
+            <div class="mob-cell">
+              <div class="mob-lbl">What</div>
+              <div class="mob-val">מארזי יוקרה</div>
+            </div>
+            <div class="mob-cell">
+              <div class="mob-lbl">Delivery</div>
+              <div class="mob-val">48 שעות</div>
+            </div>
+            <div class="mob-cell">
+              <div class="mob-lbl">Rating</div>
+              <div class="mob-val" style="color:#C5AE79;">4.9 ★</div>
+            </div>
+            <div class="mob-cell">
+              <div class="mob-lbl">Clients</div>
+              <div class="mob-val">500+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERACTIONS LEGEND -->
+  <div>
+    <div class="screen-lbl">פיצ'רים אינטראקטיביים</div>
+    <div class="frame" style="padding:28px 32px;">
+      <div class="badge-row">
+        <span class="badge">✦ Smooth scroll — Lenis</span>
+        <span class="badge">✦ Scroll progress bar</span>
+        <span class="badge">✦ Text scramble hero</span>
+        <span class="badge">✦ Floating card hover tilt</span>
+        <span class="badge">✦ Count-up stats</span>
+        <span class="badge">✦ Fade + slide on scroll</span>
+        <span class="badge">✦ Product card lift + glow</span>
+        <span class="badge">✦ Testimonials marquee</span>
+        <span class="badge">✦ Magnetic CTA button</span>
+        <span class="badge">✦ Parallax hero layers</span>
+        <span class="badge">✦ Mobile horizontal scroll products</span>
+        <span class="badge">✦ Blur fade-in sections</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maarzim — Vision Mockup</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #111;
+  color: #F0EAD6;
+  font-family: 'Courier New', monospace;
+  padding: 32px 20px 80px;
+}
+
+h1 { font-size: 13px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(197,174,121,0.6); margin-bottom: 32px; text-align: center; }
+
+.screens { display: flex; flex-direction: column; gap: 48px; max-width: 780px; margin: 0 auto; }
+
+.screen-label {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(197,174,121,0.5); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.screen-label::after { content: ''; flex: 1; height: 1px; background: rgba(197,174,121,0.12); }
+
+/* ── SCREEN FRAME ── */
+.screen {
+  border: 1px solid rgba(197,174,121,0.18);
+  overflow: hidden;
+  background: #0A0A0A;
+  position: relative;
+}
+.screen::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(197,174,121,0.3), transparent);
+}
+
+/* ══════════════════════════════════
+   SCREEN 1 — HERO
+══════════════════════════════════ */
+.hero-screen { padding: 0; }
+
+.s-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px; height: 56px;
+  border-bottom: 1px solid rgba(197,174,121,0.1);
+  position: relative;
+}
+.s-nav-logo { font-size: 13px; font-weight: 900; letter-spacing: 0.16em; color: #C5AE79; }
+.s-nav-links { display: flex; gap: 28px; }
+.s-nav-link { font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(240,234,214,0.45); }
+.s-nav-btn { font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; padding: 5px 14px; border: 1px solid rgba(197,174,121,0.35); color: #C5AE79; }
+.s-progress { position: absolute; bottom: 0; left: 0; width: 35%; height: 1px; background: linear-gradient(to right, #C5AE79, transparent); }
+
+.s-hero-body {
+  padding: 48px 32px 0;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 24px; align-items: flex-end;
+  min-height: 280px;
+}
+.s-hero-left {}
+.s-eyebrow { font-size: 8px; letter-spacing: 0.22em; text-transform: uppercase; color: #C5AE79; margin-bottom: 20px; }
+.s-h1 {
+  font-family: Arial, sans-serif;
+  font-size: 72px; font-weight: 900; letter-spacing: -0.055em; line-height: 0.88;
+  color: #F0EAD6;
+}
+.s-h1 em { color: #C5AE79; font-style: normal; }
+.s-hero-right {
+  text-align: left; padding-bottom: 8px;
+  border-left: 1px solid rgba(197,174,121,0.12);
+  padding-left: 24px;
+}
+.s-social-proof { font-size: 8px; color: rgba(240,234,214,0.4); letter-spacing: 0.1em; line-height: 2; }
+.s-stars { color: #C5AE79; letter-spacing: 2px; font-size: 10px; }
+
+.s-info-strip {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid rgba(197,174,121,0.15);
+  margin-top: 32px;
+}
+.s-info-cell { padding: 16px 24px; }
+.s-info-cell:not(:last-child) { border-left: 1px solid rgba(197,174,121,0.12); }
+.s-info-lbl { font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(197,174,121,0.45); margin-bottom: 4px; }
+.s-info-val { font-size: 15px; font-weight: 800; color: #F0EAD6; letter-spacing: -0.02em; font-family: Arial, sans-serif; }
+
+/* ══════════════════════════════════
+   SCREEN 2 — MARQUEE + STATS
+══════════════════════════════════ */
+.s-marquee {
+  padding: 11px 0; overflow: hidden; white-space: nowrap;
+  border-top: 1px solid rgba(197,174,121,0.1);
+  border-bottom: 1px solid rgba(197,174,121,0.1);
+  background: rgba(197,174,121,0.025);
+  font-size: 8px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(197,174,121,0.45);
+}
+
+.s-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+}
+.s-stat { padding: 36px 20px; text-align: center; }
+.s-stat:not(:last-child) { border-left: 1px solid rgba(197,174,121,0.1); }
+.s-stat-idx { font-size: 7px; letter-spacing: 0.2em; color: rgba(197,174,121,0.35); margin-bottom: 6px; text-transform: uppercase; }
+.s-stat-num { font-size: 40px; font-weight: 900; letter-spacing: -0.05em; color: #C5AE79; line-height: 1; margin-bottom: 5px; font-family: Arial, sans-serif; }
+.s-stat-lbl { font-size: 7px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(240,234,214,0.35); }
+
+/* ══════════════════════════════════
+   SCREEN 3 — WHY US
+══════════════════════════════════ */
+.s-whyus-header {
+  padding: 28px 32px 24px;
+  border-bottom: 1px solid rgba(197,174,121,0.1);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.s-section-tag { font-size: 8px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(197,174,121,0.55); }
+.s-section-title { font-size: 28px; font-weight: 900; letter-spacing: -0.04em; color: #F0EAD6; font-family: Arial, sans-serif; }
+.s-section-title em { color: #C5AE79; font-style: normal; }
+
+.s-why-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid rgba(197,174,121,0.08);
+}
+.s-why-cell {
+  padding: 28px 32px; position: relative; overflow: hidden;
+}
+.s-why-cell:nth-child(odd) { border-left: 1px solid rgba(197,174,121,0.08); }
+.s-why-cell:nth-child(1), .s-why-cell:nth-child(2) { border-bottom: 1px solid rgba(197,174,121,0.08); }
+.s-why-bg-num {
+  position: absolute; top: -10px; left: -8px;
+  font-size: 88px; font-weight: 900;
+  color: rgba(197,174,121,0.05); line-height: 1;
+  font-family: Arial, sans-serif; pointer-events: none;
+}
+.s-why-idx { font-size: 7px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(197,174,121,0.4); margin-bottom: 8px; }
+.s-why-title { font-size: 15px; font-weight: 800; letter-spacing: -0.02em; color: #F0EAD6; margin-bottom: 6px; font-family: Arial, sans-serif; }
+.s-why-desc { font-size: 10px; color: rgba(240,234,214,0.45); line-height: 1.65; }
+
+/* ══════════════════════════════════
+   SCREEN 4 — PRODUCTS
+══════════════════════════════════ */
+.s-products-header {
+  padding: 28px 32px;
+  border-bottom: 1px solid rgba(197,174,121,0.1);
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.s-prod-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid rgba(197,174,121,0.1);
+}
+.s-prod-card {
+  border-left: 1px solid rgba(197,174,121,0.1);
+  display: flex; flex-direction: column;
+}
+.s-prod-card:first-child { border-left: none; }
+.s-prod-card:last-child { border-left: 1px solid rgba(197,174,121,0.1); }
+.s-prod-img {
+  height: 140px;
+  background: radial-gradient(ellipse at 50% 40%, rgba(197,174,121,0.08) 0%, transparent 70%);
+  border-bottom: 1px solid rgba(197,174,121,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 42px; position: relative;
+}
+.s-prod-tag {
+  position: absolute; top: 10px; left: 10px;
+  font-size: 7px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 3px 8px; background: #C5AE79; color: #0A0A0A;
+}
+.s-prod-idx {
+  position: absolute; bottom: 10px; right: 10px;
+  font-size: 7px; letter-spacing: 0.12em; color: rgba(197,174,121,0.4);
+}
+.s-prod-body { padding: 16px 18px; flex: 1; display: flex; flex-direction: column; }
+.s-prod-tagline { font-size: 7px; letter-spacing: 0.18em; text-transform: uppercase; color: #C5AE79; margin-bottom: 6px; }
+.s-prod-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.s-prod-name { font-size: 14px; font-weight: 900; letter-spacing: -0.02em; color: #F0EAD6; font-family: Arial, sans-serif; }
+.s-prod-price { font-size: 15px; font-weight: 900; color: #C5AE79; font-family: Arial, sans-serif; }
+.s-prod-items { font-size: 9px; color: rgba(240,234,214,0.4); line-height: 1.7; flex: 1; }
+.s-prod-cta {
+  margin-top: 14px; padding: 9px; font-size: 7px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; border: 1px solid rgba(197,174,121,0.25); color: rgba(197,174,121,0.7);
+  text-align: center;
+}
+
+/* ══════════════════════════════════
+   SCREEN 5 — TESTIMONIALS
+══════════════════════════════════ */
+.s-testi-header {
+  padding: 28px 32px;
+  border-bottom: 1px solid rgba(197,174,121,0.1);
+}
+.s-testi-track { display: flex; overflow: hidden; }
+.s-testi-card {
+  flex: 0 0 calc(33.333% - 1px);
+  padding: 24px 24px;
+  border-left: 1px solid rgba(197,174,121,0.08);
+}
+.s-testi-card:first-child { border-left: none; }
+.s-testi-card:last-child { opacity: 0.4; }
+.s-testi-quote { font-size: 44px; color: rgba(197,174,121,0.18); line-height: 1; margin-bottom: 8px; font-family: Georgia, serif; }
+.s-testi-text { font-size: 11px; color: rgba(240,234,214,0.6); line-height: 1.7; margin-bottom: 14px; }
+.s-testi-author { font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(197,174,121,0.55); }
+.s-testi-author-city { font-size: 8px; color: rgba(240,234,214,0.25); margin-top: 1px; }
+
+/* ══════════════════════════════════
+   SCREEN 6 — CTA
+══════════════════════════════════ */
+.s-cta {
+  padding: 56px 32px;
+  text-align: center; position: relative; overflow: hidden;
+  border-top: 1px solid rgba(197,174,121,0.1);
+}
+.s-cta-bg-text {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  font-size: 110px; font-weight: 900; letter-spacing: -0.06em;
+  color: rgba(197,174,121,0.04); white-space: nowrap; pointer-events: none;
+  font-family: Arial, sans-serif;
+}
+.s-cta-tag { font-size: 8px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(197,174,121,0.5); margin-bottom: 14px; }
+.s-cta-h2 {
+  font-size: 52px; font-weight: 900; letter-spacing: -0.05em; line-height: 0.9;
+  color: #F0EAD6; margin-bottom: 28px; position: relative;
+  font-family: Arial, sans-serif;
+}
+.s-cta-h2 em { color: #C5AE79; font-style: normal; }
+.s-cta-btn {
+  display: inline-block; padding: 14px 40px;
+  background: #C5AE79; color: #0A0A0A;
+  font-size: 9px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+  position: relative;
+}
+
+/* MOBILE SCREEN */
+.mobile-frame {
+  width: 280px; margin: 0 auto;
+  border: 1px solid rgba(197,174,121,0.18);
+  background: #0A0A0A; overflow: hidden;
+}
+.mobile-notch {
+  height: 28px; background: #080808;
+  display: flex; align-items: center; justify-content: center;
+}
+.mobile-notch-dot { width: 60px; height: 5px; background: #1a1a1a; border-radius: 10px; }
+
+.m-s-nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid rgba(197,174,121,0.1); }
+.m-s-logo { font-size: 12px; font-weight: 900; letter-spacing: 0.14em; color: #C5AE79; }
+.m-s-hamburger { display: flex; flex-direction: column; gap: 4px; }
+.m-s-bar { width: 18px; height: 1px; background: rgba(240,234,214,0.6); }
+
+.m-hero { padding: 32px 16px 0; }
+.m-h1 { font-size: 48px; font-weight: 900; letter-spacing: -0.05em; line-height: 0.88; margin-bottom: 24px; font-family: Arial, sans-serif; }
+.m-h1 em { color: #C5AE79; font-style: normal; }
+.m-info { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid rgba(197,174,121,0.12); margin: 0 -16px; }
+.m-info-cell { padding: 12px 14px; }
+.m-info-cell:nth-child(1) { border-bottom: 1px solid rgba(197,174,121,0.12); border-left: 1px solid rgba(197,174,121,0.12); }
+.m-info-cell:nth-child(2) { border-bottom: 1px solid rgba(197,174,121,0.12); }
+.m-info-cell:nth-child(3) { border-left: 1px solid rgba(197,174,121,0.12); }
+.m-info-lbl { font-size: 7px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(197,174,121,0.4); margin-bottom: 2px; }
+.m-info-val { font-size: 12px; font-weight: 800; color: #F0EAD6; font-family: Arial, sans-serif; }
+
+.m-prod-scroll { display: flex; gap: 1px; overflow: hidden; }
+.m-prod-mini { flex: 0 0 55%; padding: 12px; background: #0A0A0A; border-left: 1px solid rgba(197,174,121,0.1); }
+.m-prod-mini:first-child { border-left: none; }
+.m-prod-mini-img { height: 60px; display:flex;align-items:center;justify-content:center;font-size:24px;background:radial-gradient(ellipse,rgba(197,174,121,0.07),transparent);border-bottom:1px solid rgba(197,174,121,0.08);margin-bottom:8px; }
+.m-prod-mini-name { font-size: 11px; font-weight: 800; color: #F0EAD6; letter-spacing: -0.02em; font-family: Arial, sans-serif; }
+.m-prod-mini-price { font-size: 11px; font-weight: 900; color: #C5AE79; font-family: Arial, sans-serif; }
+</style>
+</head>
+<body>
+
+<h1>✦ MAARZIM — Vision Preview</h1>
+
+<div class="screens">
+
+  <!-- ─── SCREEN 1: HERO ─── -->
+  <div>
+    <div class="screen-label">01 · HERO — desktop</div>
+    <div class="screen hero-screen">
+      <div class="s-nav">
+        <div class="s-nav-links" style="flex-direction:row-reverse">
+          <span class="s-nav-link">מארזים</span>
+          <span class="s-nav-link">המלצות</span>
+        </div>
+        <div class="s-nav-logo">MAARZIM</div>
+        <div class="s-nav-links" style="align-items:center">
+          <span class="s-nav-link">למה אנחנו</span>
+          <span class="s-nav-btn">הזמנה</span>
+        </div>
+        <div class="s-progress"></div>
+      </div>
+      <div class="s-hero-body">
+        <div class="s-hero-left">
+          <div class="s-eyebrow">מארזי מתנה יוקרתיים · משלוח חינם</div>
+          <div class="s-h1">מתנה<br/>שלא<br/><em>נשכחת.</em></div>
+        </div>
+        <div class="s-hero-right">
+          <div class="s-social-proof">
+            <div class="s-stars">★★★★★</div>
+            500+ לקוחות<br/>מרוצים
+          </div>
+        </div>
+      </div>
+      <div class="s-info-strip">
+        <div class="s-info-cell">
+          <div class="s-info-lbl">What:</div>
+          <div class="s-info-val">מארזי יוקרה</div>
+        </div>
+        <div class="s-info-cell">
+          <div class="s-info-lbl">When:</div>
+          <div class="s-info-val">48 שעות</div>
+        </div>
+        <div class="s-info-cell">
+          <div class="s-info-lbl">Where:</div>
+          <div class="s-info-val">כל ישראל</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SCREEN 2: MARQUEE + STATS ─── -->
+  <div>
+    <div class="screen-label">02 · MARQUEE + STATS</div>
+    <div class="screen">
+      <div class="s-marquee">
+        &nbsp;&nbsp;✦ מארזי יוקרה &nbsp;·&nbsp; משלוח חינם &nbsp;·&nbsp; 48 שעות &nbsp;·&nbsp; 500+ לקוחות מרוצים &nbsp;·&nbsp; מארזי יוקרה &nbsp;·&nbsp; משלוח חינם &nbsp;·&nbsp; 48 שעות &nbsp;·&nbsp; 500+ לקוחות מרוצים &nbsp;·&nbsp;
+      </div>
+      <div class="s-stats">
+        <div class="s-stat">
+          <div class="s-stat-idx">STAT 01</div>
+          <div class="s-stat-num">500+</div>
+          <div class="s-stat-lbl">לקוחות מרוצים</div>
+        </div>
+        <div class="s-stat">
+          <div class="s-stat-idx">STAT 02</div>
+          <div class="s-stat-num">3</div>
+          <div class="s-stat-lbl">שנות ניסיון</div>
+        </div>
+        <div class="s-stat">
+          <div class="s-stat-idx">STAT 03</div>
+          <div class="s-stat-num">48h</div>
+          <div class="s-stat-lbl">זמן משלוח</div>
+        </div>
+        <div class="s-stat">
+          <div class="s-stat-idx">STAT 04</div>
+          <div class="s-stat-num">4.9★</div>
+          <div class="s-stat-lbl">דירוג ממוצע</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SCREEN 3: WHY US ─── -->
+  <div>
+    <div class="screen-label">03 · WHY US</div>
+    <div class="screen">
+      <div class="s-whyus-header">
+        <span class="s-section-tag">WHY US</span>
+        <span class="s-section-title">למה <em>maarzim?</em></span>
+      </div>
+      <div class="s-why-grid">
+        <div class="s-why-cell">
+          <div class="s-why-bg-num">01</div>
+          <div class="s-why-idx">WHY 01</div>
+          <div class="s-why-title">אריזה יוקרתית</div>
+          <div class="s-why-desc">כל מארז נארז ביד עם ניר טישו, סרט צבעוני וכרטיס ברכה אישי.</div>
+        </div>
+        <div class="s-why-cell">
+          <div class="s-why-bg-num">02</div>
+          <div class="s-why-idx">WHY 02</div>
+          <div class="s-why-title">משלוח בזק</div>
+          <div class="s-why-desc">48 שעות לכל רחבי ישראל, עם עדכונים בוואטסאפ בזמן אמת.</div>
+        </div>
+        <div class="s-why-cell">
+          <div class="s-why-bg-num">03</div>
+          <div class="s-why-idx">WHY 03</div>
+          <div class="s-why-title">התאמה אישית</div>
+          <div class="s-why-desc">כל מארז מותאם לאירוע ולמקבל. ברכה, סגנון, ותוכן — הכל לפי בקשתך.</div>
+        </div>
+        <div class="s-why-cell">
+          <div class="s-why-bg-num">04</div>
+          <div class="s-why-idx">WHY 04</div>
+          <div class="s-why-title">מוצרים איכותיים</div>
+          <div class="s-why-desc">רק ספקים מובחרים. כל פריט עובר בחירה קפדנית לפני שנכנס למארז.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SCREEN 4: PRODUCTS ─── -->
+  <div>
+    <div class="screen-label">04 · PRODUCTS</div>
+    <div class="screen">
+      <div class="s-products-header">
+        <span class="s-section-tag">המארזים שלנו</span>
+        <span class="s-section-title">בחרו את המארז <em>המושלם.</em></span>
+      </div>
+      <div class="s-prod-grid">
+        <div class="s-prod-card">
+          <div class="s-prod-img">
+            🎁
+            <div class="s-prod-tag">פופולרי</div>
+            <div class="s-prod-idx">01 / 04</div>
+          </div>
+          <div class="s-prod-body">
+            <div class="s-prod-tagline">Classic</div>
+            <div class="s-prod-row">
+              <div class="s-prod-name">מארז סטנדרט</div>
+              <div class="s-prod-price">₪199</div>
+            </div>
+            <div class="s-prod-items">— שוקולד בלגי<br/>— נר ריחני<br/>— כרטיס ברכה</div>
+            <div class="s-prod-cta">הזמנה בוואטסאפ</div>
+          </div>
+        </div>
+        <div class="s-prod-card">
+          <div class="s-prod-img">
+            ✨
+            <div class="s-prod-tag">הכי נמכר</div>
+            <div class="s-prod-idx">02 / 04</div>
+          </div>
+          <div class="s-prod-body">
+            <div class="s-prod-tagline">Premium</div>
+            <div class="s-prod-row">
+              <div class="s-prod-name">מארז פרימיום</div>
+              <div class="s-prod-price">₪299</div>
+            </div>
+            <div class="s-prod-items">— יין איכותי<br/>— גבינות מובחרות<br/>— שוקולד, נר</div>
+            <div class="s-prod-cta">הזמנה בוואטסאפ</div>
+          </div>
+        </div>
+        <div class="s-prod-card">
+          <div class="s-prod-img">
+            👑
+            <div class="s-prod-idx">03 / 04</div>
+          </div>
+          <div class="s-prod-body">
+            <div class="s-prod-tagline">VIP</div>
+            <div class="s-prod-row">
+              <div class="s-prod-name">מארז VIP</div>
+              <div class="s-prod-price">₪499</div>
+            </div>
+            <div class="s-prod-items">— שמפניה<br/>— שוקולד בלגי<br/>— בשמים, נר יוקרה</div>
+            <div class="s-prod-cta">הזמנה בוואטסאפ</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SCREEN 5: TESTIMONIALS ─── -->
+  <div>
+    <div class="screen-label">05 · TESTIMONIALS</div>
+    <div class="screen">
+      <div class="s-testi-header">
+        <span class="s-section-tag">מה אומרים עלינו</span>
+      </div>
+      <div class="s-testi-track">
+        <div class="s-testi-card">
+          <div class="s-testi-quote">"</div>
+          <div class="s-testi-text">המארז הגיע מהר ממש ונראה מדהים. כולם השתגעו מהאריזה, שלחתי עוד שניים.</div>
+          <div class="s-testi-author">— דנה כ.</div>
+          <div class="s-testi-author-city">תל אביב</div>
+        </div>
+        <div class="s-testi-card">
+          <div class="s-testi-quote">"</div>
+          <div class="s-testi-text">שירות מעולה ומקצועי. הכרטיס ברכה האישי גרם לאמא שלי לבכות.</div>
+          <div class="s-testi-author">— יוסי מ.</div>
+          <div class="s-testi-author-city">ירושלים</div>
+        </div>
+        <div class="s-testi-card">
+          <div class="s-testi-quote">"</div>
+          <div class="s-testi-text">הפתיע אותי כמה זה נראה יקר ומיוחד. שווה כל שקל!</div>
+          <div class="s-testi-author">— מיכל ר.</div>
+          <div class="s-testi-author-city">חיפה</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SCREEN 6: CTA ─── -->
+  <div>
+    <div class="screen-label">06 · CTA</div>
+    <div class="screen">
+      <div class="s-cta">
+        <div class="s-cta-bg-text">MAARZIM</div>
+        <div class="s-cta-tag">מוכנים להפתיע?</div>
+        <div class="s-cta-h2">תנו לנו<br/>לדאוג<br/>ל<em>כל</em> השאר.</div>
+        <div class="s-cta-btn">הזמינו עכשיו ←</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MOBILE SCREEN ─── -->
+  <div>
+    <div class="screen-label">07 · MOBILE — hero + products scroll</div>
+    <div class="mobile-frame">
+      <div class="mobile-notch"><div class="mobile-notch-dot"></div></div>
+      <div class="m-s-nav">
+        <div class="m-s-logo">MAARZIM</div>
+        <div class="m-s-hamburger">
+          <div class="m-s-bar"></div>
+          <div class="m-s-bar"></div>
+          <div class="m-s-bar" style="width:12px"></div>
+        </div>
+      </div>
+      <div class="m-hero">
+        <div style="font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(197,174,121,0.6);margin-bottom:14px;">מארזי מתנה · ישראל</div>
+        <div class="m-h1">מתנה<br/>שלא<br/><em>נשכחת.</em></div>
+        <div class="m-info">
+          <div class="m-info-cell">
+            <div class="m-info-lbl">What:</div>
+            <div class="m-info-val">מארזי יוקרה</div>
+          </div>
+          <div class="m-info-cell">
+            <div class="m-info-lbl">When:</div>
+            <div class="m-info-val">48 שעות</div>
+          </div>
+          <div class="m-info-cell">
+            <div class="m-info-lbl">Where:</div>
+            <div class="m-info-val">כל ישראל</div>
+          </div>
+          <div class="m-info-cell">
+            <div class="m-info-lbl">Rating:</div>
+            <div class="m-info-val" style="color:#C5AE79;">4.9 ★</div>
+          </div>
+        </div>
+      </div>
+      <div style="padding:20px 0 0;border-top:1px solid rgba(197,174,121,0.1);margin-top:24px;">
+        <div style="font-size:7px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(197,174,121,0.5);padding:0 16px 12px;">המארזים ← גלול</div>
+        <div class="m-prod-scroll">
+          <div class="m-prod-mini">
+            <div class="m-prod-mini-img">🎁</div>
+            <div class="m-prod-mini-name">סטנדרט</div>
+            <div class="m-prod-mini-price">₪199</div>
+          </div>
+          <div class="m-prod-mini">
+            <div class="m-prod-mini-img">✨</div>
+            <div class="m-prod-mini-name">פרימיום</div>
+            <div class="m-prod-mini-price">₪299</div>
+          </div>
+          <div class="m-prod-mini" style="opacity:0.5">
+            <div class="m-prod-mini-img">👑</div>
+            <div class="m-prod-mini-name">VIP</div>
+            <div class="m-prod-mini-price">₪499</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
