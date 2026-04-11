@@ -4,10 +4,8 @@ export function Footer() {
   return (
     <footer
       style={{
-        position: "relative",
-        zIndex: 10,
-        padding: "28px clamp(24px, 5vw, 80px)",
-        borderTop: "1px solid var(--gold-14)",
+        padding: "24px clamp(24px, 5vw, 80px)",
+        borderTop: "1px solid var(--border)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
@@ -15,26 +13,23 @@ export function Footer() {
         gap: 16,
       }}
     >
-      {/* Brand name */}
       <span
         style={{
-          fontSize: 14,
-          fontWeight: 900,
-          letterSpacing: "0.12em",
+          fontSize: 13,
+          fontWeight: 700,
+          letterSpacing: "0.1em",
           textTransform: "uppercase",
           color: "var(--gold)",
         }}
       >
         {SITE.name}
       </span>
-
-      {/* Copyright */}
       <p
         style={{
           fontSize: 11,
-          color: "var(--cream-mute)",
-          letterSpacing: "0.06em",
+          color: "var(--text-3)",
           margin: 0,
+          letterSpacing: "0.04em",
         }}
       >
         <span dir="ltr">© {new Date().getFullYear()}</span>
